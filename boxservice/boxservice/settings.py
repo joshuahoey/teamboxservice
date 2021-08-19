@@ -71,11 +71,11 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication'
-    )
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
 }
 
 WSGI_APPLICATION = 'boxservice.wsgi.application'
@@ -105,7 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'core.User'
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'service.serializers.UserSerializer',
+}
+
+AUTH_USER_MODEL = 'service.User'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 

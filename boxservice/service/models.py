@@ -7,16 +7,29 @@ import datetime
 
 # Create your models here.
 
+class Subscription(models.Model):
+    pass
+
+
+class StandardBox(models.Model):
+    pass
+
+
+class ClothingItem(models.Model):
+    pass
+
+
 def name_image(instance, filename):
     return '/'.join(['images', str(instance.name), filename])
 
 
 class User(AbstractUser):
     phone_number = models.CharField(blank=True, null=True, unique=True, max_length=12)
-    registration_date = models.DateField(default=datetime.date.today)
-    start_date = models.DateField(blank=True)
+    start_date = models.DateField(blank=True, null=True)
     address = models.CharField(blank=True, null=True, max_length=250)
     tokens = models.PositiveIntegerField(default=0, validators=[MaxValueValidator(2)])
     image = models.ImageField(upload_to=name_image, blank=True, null=True)
-    ## add ForeignKey fields
-
+    is_employee = models.BooleanField(null=True)
+    subscription_type = models.ForeignKey(Subscription, on_delete=models.PROTECT, null=True)
+    standard_box = models.ForeignKey(StandardBox, on_delete=models.PROTECT, null=True)
+    bonus_item = models.ForeignKey(ClothingItem, on_delete=models.PROTECT, null=True)
