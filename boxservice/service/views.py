@@ -1,3 +1,5 @@
+import os
+
 from django.shortcuts import render
 from .models import User
 from rest_framework.response import Response
@@ -29,3 +31,21 @@ class RegisterViewSet(APIView):
                             status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserImageViewSet(APIView):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JSONWebTokenAuthentication]
+
+    def put(self, request):
+        serializer = serializers.UserSerializer(request.user, data=request.data, partial=True)
+        user = request.user
+        if user.image.path is not None:
+            os.remove(user.image.path)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+

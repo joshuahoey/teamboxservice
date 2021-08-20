@@ -20,7 +20,7 @@ class ClothingItem(models.Model):
 
 
 def name_image(instance, filename):
-    return '/'.join(['images', str(instance.name), filename])
+    return '/'.join(['images', str(instance.username), filename])
 
 
 class User(AbstractUser):

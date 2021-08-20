@@ -29,3 +29,6 @@ class UserSerializer(serializers.ModelSerializer):
             subscriber_group.user_set.add(user)
 
         return user
+
+
+
